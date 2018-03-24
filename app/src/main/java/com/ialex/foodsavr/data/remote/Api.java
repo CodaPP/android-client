@@ -1,7 +1,6 @@
 package com.ialex.foodsavr.data.remote;
 
-import android.support.v7.widget.CardView;
-
+import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 
 import retrofit2.Call;
@@ -36,6 +35,10 @@ public interface Api {
     @GET("/FoodSavr/public/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<RegisterResponse> testLogin();
+
+    @GET("/FoodSavr/public/user/getFridgeItems")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<ProductsResponse> getFridgeItems();
 
     /*@POST("/user/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.presentation.screen.login.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FoodShareFragment;
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     PrefsRepository prefsRepository;
+
+    @Inject
+    DataRepository dataRepository;
 
     private FridgeFragment fridgeFragment;
     private FoodShareFragment foodShareFragment;
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        dataRepository.getFridgeItems();
+
         setupBottomNavigationView();
     }
 
@@ -62,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_share_food:
-                        swithToFoodShare();
+                        switchToFoodShare();
                         return true;
                     case R.id.item_fridge:
                         switchToFridge();
@@ -86,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         manager.beginTransaction().replace(R.id.fragment_container, fridgeFragment).commit();
     }
 
-    private void swithToFoodShare() {
+    private void switchToFoodShare() {
         if (foodShareFragment == null) {
             foodShareFragment = FoodShareFragment.newInstance();
         }

@@ -3,6 +3,7 @@ package com.ialex.foodsavr.data;
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.Api;
 import com.ialex.foodsavr.data.remote.response.BaseResponse;
+import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 import com.ialex.foodsavr.presentation.screen.login.LoginCallback;
 
@@ -100,6 +101,25 @@ public class DataRepository {
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 Timber.d("Failed login test");
+            }
+        });
+    }
+
+    public void getFridgeItems() {
+        api.getFridgeItems().enqueue(new Callback<ProductsResponse>() {
+            @Override
+            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                ProductsResponse resp = response.body();
+                Timber.d("Got %d products", resp.items.size());
+            }
+
+            @Override
+            public void onFailure(Call<ProductsResponse> call, Throwable t) {
+                Timber.d(t, "rip");
             }
         });
     }
