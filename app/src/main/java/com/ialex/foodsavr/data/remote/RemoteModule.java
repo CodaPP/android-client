@@ -1,6 +1,9 @@
 package com.ialex.foodsavr.data.remote;
 
 import com.google.gson.Gson;
+import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
+import com.ialex.foodsavr.data.remote.interceptors.AddCookieInterceptor;
+import com.ialex.foodsavr.data.remote.interceptors.ReceiveCookieInterceptor;
 
 import javax.inject.Singleton;
 
@@ -20,13 +23,16 @@ public class RemoteModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient() {
+    OkHttpClient provideOkHttpClient(AddCookieInterceptor addCookieInterceptor,
+                                     ReceiveCookieInterceptor receiveCookieInterceptor) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .followRedirects(false)
                 .followSslRedirects(false)
+                .addInterceptor(addCookieInterceptor)
+                .addInterceptor(receiveCookieInterceptor)
                 .build();
     }
 
@@ -39,5 +45,17 @@ public class RemoteModule {
                 .client(okHttpClient)
                 .build()
                 .create(Api.class);
+    }
+
+    @Provides
+    @Singleton
+    AddCookieInterceptor provideAddCookieInterceptor(PrefsRepository prefsRepository) {
+        return new AddCookieInterceptor(prefsRepository);
+    }
+
+    @Provides
+    @Singleton
+    ReceiveCookieInterceptor provideReceiveCookieInterceptor(PrefsRepository prefsRepository) {
+        return new ReceiveCookieInterceptor(prefsRepository);
     }
 }

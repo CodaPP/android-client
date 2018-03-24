@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 
 import com.ialex.foodsavr.data.local.prefs.util.LongPreference;
 import com.ialex.foodsavr.data.local.prefs.util.StringPreference;
+import com.ialex.foodsavr.data.local.prefs.util.StringSetPreference;
+import com.ialex.foodsavr.data.util.Constants;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -44,5 +46,12 @@ public class PrefsModule {
     @Singleton
     StringPreference providePasswordData(SharedPreferences preferences) {
         return new StringPreference(preferences, "password", null);
+    }
+
+    @Provides
+    @Named("cookies")
+    @Singleton
+    StringSetPreference provideCookiesPreference(SharedPreferences preferences) {
+        return new StringSetPreference(preferences, Constants.SHARED_PREFS_COOKIES, null);
     }
 }

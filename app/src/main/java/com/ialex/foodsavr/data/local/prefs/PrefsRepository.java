@@ -3,6 +3,9 @@ package com.ialex.foodsavr.data.local.prefs;
 import com.google.gson.Gson;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.local.prefs.util.StringPreference;
+import com.ialex.foodsavr.data.local.prefs.util.StringSetPreference;
+
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,6 +25,10 @@ public class PrefsRepository {
     StringPreference passwordPreference;
 
     @Inject
+    @Named("cookies")
+    StringSetPreference cookiesPreference;
+
+    @Inject
     Gson gson;
 
     public PrefsRepository() {
@@ -38,5 +45,13 @@ public class PrefsRepository {
 
     public String getPassword() {
         return passwordPreference.get();
+    }
+
+    public Set<String> getCookies() {
+        return cookiesPreference.get();
+    }
+
+    public void saveCookies(Set<String> value) {
+        cookiesPreference.set(value);
     }
 }
