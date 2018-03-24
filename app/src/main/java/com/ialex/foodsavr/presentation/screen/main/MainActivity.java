@@ -1,5 +1,6 @@
 package com.ialex.foodsavr.presentation.screen.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,7 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.DataRepository;
@@ -21,7 +25,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
+import timber.log.Timber;
 
+@RuntimePermissions
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.navigation)
@@ -60,6 +68,47 @@ public class MainActivity extends AppCompatActivity {
         dataRepository.getFridgeItems();
 
         setupBottomNavigationView();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Timber.d(result.getContents());
+
+                broadcastScannedBarcode(result);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void showScannerActivity() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("Scan a barcode");
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.initiateScan();
+    }
+
+    public void showScannerWrapper() {
+        MainActivityPermissionsDispatcher.showScannerActivityWithPermissionCheck(this);
+    }
+
+    public void broadcastScannedBarcode(IntentResult result) {
+        if (fridgeFragment != null) {
+            fridgeFragment.onBarcodeScanned(result);
+        }
     }
 
     private void setupBottomNavigationView() {

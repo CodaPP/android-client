@@ -2,6 +2,7 @@ package com.ialex.foodsavr.data;
 
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.Api;
+import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
@@ -120,6 +121,28 @@ public class DataRepository {
             @Override
             public void onFailure(Call<ProductsResponse> call, Throwable t) {
                 Timber.d(t, "rip");
+            }
+        });
+    }
+
+    public void addFridgeItem(String barcode) {
+        api.addFridgeItem(barcode, 1, null).enqueue(new Callback<AddFridgeItemResponse>() {
+            @Override
+            public void onResponse(Call<AddFridgeItemResponse> call, Response<AddFridgeItemResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                if (response.body().status) {
+                    Timber.d("Successfully added product");
+                } else {
+                    Timber.d("Couldn't add product");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddFridgeItemResponse> call, Throwable t) {
+
             }
         });
     }

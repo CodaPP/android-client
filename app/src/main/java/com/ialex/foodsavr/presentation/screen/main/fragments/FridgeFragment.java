@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.component.MiscUtils;
@@ -17,6 +20,7 @@ import com.ialex.foodsavr.component.RecyclerViewSpacingDecorator;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
 import com.ialex.foodsavr.presentation.screen.main.FridgeAdapter;
+import com.ialex.foodsavr.presentation.screen.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alex on 24/03/2018.
@@ -62,6 +67,19 @@ public class FridgeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
+    }
+
+    @OnClick(R.id.fab_add_item)
+    void addFridgeItem() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).showScannerWrapper();
+        }
+    }
+
+    public void onBarcodeScanned(IntentResult result) {
+        Toast.makeText(getContext(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+        dataRepository.addFridgeItem(result.getContents());
     }
 
     private void setupRecyclerView() {

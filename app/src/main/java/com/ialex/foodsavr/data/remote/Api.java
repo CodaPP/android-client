@@ -1,5 +1,6 @@
 package com.ialex.foodsavr.data.remote;
 
+import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 
@@ -18,7 +19,6 @@ public interface Api {
     String URL_PROD_BASE = "http://defcon33.ddns.net/";
     String URL_PROD_TEST = "http://192.168.43.46/";
 
-
     @FormUrlEncoded
     @POST("/FoodSavr/public/register")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
@@ -31,6 +31,13 @@ public interface Api {
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<RegisterResponse> login(@Field("email") String email,
                                  @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("/FoodSavr/public/user/addFridgeItems")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<AddFridgeItemResponse> addFridgeItem(@Field("barcode") String barcode,
+                                              @Field("quantity") Integer quantity,
+                                              @Field("useBy") Long useBy);
 
     @GET("/FoodSavr/public/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
