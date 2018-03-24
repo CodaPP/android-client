@@ -9,7 +9,7 @@
         android:title="@string/bottom_navigation_fridge"
         android:icon="@drawable/ic_fridge_24dp" />
     <item
-        android:id="@+id/item_events"
+        android:id="@+id/item_recipes"
         android:title="@string/bottom_navigation_recipes"
         android:icon="@drawable/ic_recipies_24dp" />
 </menu>

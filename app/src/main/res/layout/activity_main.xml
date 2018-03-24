@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ialex.foodsavr.MainActivity">
+    tools:context="com.ialex.foodsavr.presentation.screen.main.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,13 +15,23 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.design.widget.BottomNavigationView
-        style="@style/BottomNavigation"
         android:id="@+id/navigation"
+        style="@style/BottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background"
         app:itemIconTint="@color/navigation_bar_text_color"
         app:itemTextColor="@color/navigation_bar_text_color"
-        app:menu="@menu/bottom_navigation_items"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation_items" />
 </android.support.constraint.ConstraintLayout>
