@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FoodSavr</string>
+
+    <string name="bottom_navigation_share">Share</string>
+    <string name="bottom_navigation_fridge">Fridge</string>
+    <string name="bottom_navigation_recipes">Recipes</string>
 </resources>

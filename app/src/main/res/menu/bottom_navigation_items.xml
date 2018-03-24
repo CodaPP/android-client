@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_share_food"
+        android:title="@string/bottom_navigation_share"
+        android:icon="@drawable/ic_food_share_24dp" />
+    <item
+        android:id="@+id/item_fridge"
+        android:title="@string/bottom_navigation_fridge"
+        android:icon="@drawable/ic_fridge_24dp" />
+    <item
+        android:id="@+id/item_events"
+        android:title="@string/bottom_navigation_recipes"
+        android:icon="@drawable/ic_recipies_24dp" />
+</menu>
