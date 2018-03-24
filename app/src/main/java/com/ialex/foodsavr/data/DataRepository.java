@@ -166,7 +166,7 @@ public class DataRepository {
 
                 if (response.body().status) {
                     Timber.d("Successfully added product");
-                    callback.onProductAdded();
+                    callback.onProductAdded(response.body());
                 } else {
                     Timber.d("Couldn't add product");
                     callback.onError(response.body().error);
@@ -176,6 +176,28 @@ public class DataRepository {
             @Override
             public void onFailure(Call<AddFridgeItemResponse> call, Throwable t) {
                 callback.onError("Retrofit callback failure");
+            }
+        });
+    }
+
+    public void updateItemInfo(String barcode, String manufacturer, String name) {
+        api.updateItemInfo(barcode, manufacturer, name).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                if (response.body().status) {
+                    Timber.d("Successfully updated product info");
+                } else {
+                    Timber.d("Couldn't update product info");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
             }
         });
     }

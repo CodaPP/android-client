@@ -1,6 +1,7 @@
 package com.ialex.foodsavr.presentation.screen.main.fragments;
 
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
+import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface ProductListener {
 
-    void onProductAdded();
+    void onProductAdded(AddFridgeItemResponse response);
 
     void onReceiveFridgeItems(List<FridgeItem> items);
 

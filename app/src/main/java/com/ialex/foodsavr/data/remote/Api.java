@@ -1,6 +1,7 @@
 package com.ialex.foodsavr.data.remote;
 
 import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
+import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 
@@ -42,6 +43,13 @@ public interface Api {
     Call<AddFridgeItemResponse> addFridgeItem(@Field("barcode") String barcode,
                                               @Field("quantity") Integer quantity,
                                               @Field("useBy") Long useBy);
+
+    @FormUrlEncoded
+    @POST("/FoodSavr/public/products/updateInfo")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<BaseResponse> updateItemInfo(@Field("barcode") String barcode,
+                                        @Field("manufacturer") String manufacturer,
+                                        @Field("name") String name);
 
     @GET("/FoodSavr/public/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})

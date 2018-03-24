@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
@@ -19,6 +21,8 @@ import com.ialex.foodsavr.component.MiscUtils;
 import com.ialex.foodsavr.component.RecyclerViewSpacingDecorator;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
+import com.ialex.foodsavr.data.remote.models.TempItemInfo;
+import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 import com.ialex.foodsavr.presentation.screen.main.FridgeAdapter;
 import com.ialex.foodsavr.presentation.screen.main.MainActivity;
 
@@ -118,8 +122,8 @@ public class FridgeFragment extends Fragment implements ProductListener {
     }
 
     @Override
-    public void onProductAdded() {
-
+    public void onProductAdded(AddFridgeItemResponse response) {
+        askNextRequiredInfo(response, new TempItemInfo());
     }
 
     @Override
@@ -131,5 +135,53 @@ public class FridgeFragment extends Fragment implements ProductListener {
     @Override
     public void onError(String error) {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void askNextRequiredInfo(final AddFridgeItemResponse response, final TempItemInfo tempItemInfo) {
+        if (response.requiredInfo.manufacturer) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.dialog_title_manufacturer)
+                    .content(R.string.dialog_content_manufacturer)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(R.string.dialog_hint_manufacturer, R.string.dialog_prefill_manufacturer, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            // Do something
+                            response.requiredInfo.manufacturer = false;
+                            tempItemInfo.manufacturer = input.toString();
+
+                            askNextRequiredInfo(response, tempItemInfo);
+                        }
+                    })
+                    .show();
+
+            return;
+        }
+
+        if (response.requiredInfo.name) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.dialog_title_name)
+                    .content(R.string.dialog_content_name)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input(R.string.dialog_hint_name, R.string.dialog_prefill_name, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            // Do something
+                            response.requiredInfo.name = false;
+                            tempItemInfo.name = input.toString();
+
+                            askNextRequiredInfo(response, tempItemInfo);
+                        }
+                    })
+                    .show();
+
+            return;
+        }
+
+        if (tempItemInfo.manufacturer == null && tempItemInfo.name == null) {
+            return;
+        }
+
+        dataRepository.updateItemInfo(response.requiredInfo.barcode, tempItemInfo.manufacturer, tempItemInfo.name);
     }
 }
