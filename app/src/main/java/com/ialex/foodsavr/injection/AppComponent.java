@@ -8,6 +8,7 @@ import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.local.prefs.PrefsModule;
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.RemoteModule;
+import com.ialex.foodsavr.presentation.screen.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
 
 import javax.inject.Singleton;
@@ -23,6 +24,8 @@ public interface AppComponent {
     void inject(PrefsRepository prefsRepository);
 
     void inject(FridgeFragment fragment);
+
+    void inject(LoginActivity activity);
 
     PrefsRepository prefsRepository();
 

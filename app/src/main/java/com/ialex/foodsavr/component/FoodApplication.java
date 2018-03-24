@@ -6,10 +6,10 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.ialex.foodsavr.BuildConfig;
 import com.ialex.foodsavr.injection.AppComponent;
 import com.ialex.foodsavr.injection.AppModule;
 import com.ialex.foodsavr.injection.DaggerAppComponent;
-import com.squareup.leakcanary.BuildConfig;
 import com.squareup.leakcanary.LeakCanary;
 
 import timber.log.Timber;

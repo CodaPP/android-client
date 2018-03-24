@@ -1,5 +1,6 @@
 package com.ialex.foodsavr.presentation.screen.main;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,11 @@ import android.view.MenuItem;
 
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
+import com.ialex.foodsavr.presentation.screen.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.navigation)
     BottomNavigationView bottomNavigationView;
+
+    @Inject
+    PrefsRepository prefsRepository;
 
     private FridgeFragment fridgeFragment;
 
@@ -32,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 .appComponent(FoodApplication.component())
                 .build();
         component.inject(this);
+
+        if (prefsRepository.getPassword() == null || prefsRepository.getUsername() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+            return;
+        }
 
         setupBottomNavigationView();
     }

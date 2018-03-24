@@ -17,7 +17,6 @@ import com.ialex.foodsavr.data.remote.models.FridgeItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,33 +87,6 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         @BindView(R.id.text_station_bio)
         TextView stationBioText;
 
-        @BindView(R.id.text_station_namespace)
-        TextView stationNamespaceText;
-
-        @BindView(R.id.text_station_instance)
-        TextView stationInstanceText;
-
-        @BindView(R.id.text_station_distance)
-        TextView stationDistanceText;
-
-        @BindView(R.id.expand)
-        View expand;
-
-        @BindView(R.id.text_station_temp)
-        TextView stationTempText;
-
-        @BindView(R.id.text_station_humid)
-        TextView stationHumidText;
-
-        @BindView(R.id.text_station_people)
-        TextView stationPeopleText;
-
-        @BindView(R.id.divider1)
-        View divider1;
-
-        @BindView(R.id.divider2)
-        View divider2;
-
         boolean isExpanded;
         private int position;
 
@@ -147,13 +119,7 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             Glide.with(mContext).load("https://timedotcom.files.wordpress.com/2017/08/donald-trump1.jpg?quality=85").apply(RequestOptions.circleCropTransform()).into(stationImage);
 
             stationTitleText.setText("Salam");
-            stationBioText.setText("de siiu");
-
-            stationInstanceText.setText("instance");
-            stationNamespaceText.setText("namespace");
-            stationTempText.setText("20");
-            stationHumidText.setText("20");
-            stationPeopleText.setText("420");
+            stationBioText.setText("de sibiu");
 
             if (isExpanded) {
                 displayDetails();
@@ -163,30 +129,10 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         }
 
         private void displayDetails() {
-            expand.setVisibility(View.VISIBLE);
-            stationInstanceText.setVisibility(View.VISIBLE);
-            stationNamespaceText.setVisibility(View.VISIBLE);
-            stationDistanceText.setVisibility(View.VISIBLE);
-            stationTempText.setVisibility(View.VISIBLE);
-            stationHumidText.setVisibility(View.VISIBLE);
-            stationPeopleText.setVisibility(View.VISIBLE);
-            divider1.setVisibility(View.VISIBLE);
-            divider2.setVisibility(View.VISIBLE);
-
             stationBioText.setMaxLines(10);
         }
 
         private void hideDetails() {
-            expand.setVisibility(View.GONE);
-            stationInstanceText.setVisibility(View.GONE);
-            stationNamespaceText.setVisibility(View.GONE);
-            stationDistanceText.setVisibility(View.GONE);
-            stationTempText.setVisibility(View.GONE);
-            stationHumidText.setVisibility(View.GONE);
-            stationPeopleText.setVisibility(View.GONE);
-            divider1.setVisibility(View.GONE);
-            divider2.setVisibility(View.GONE);
-
             stationBioText.setMaxLines(1);
         }
     }
