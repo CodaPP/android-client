@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
@@ -35,7 +34,7 @@ import butterknife.OnClick;
  * Created by alex on 24/03/2018.
  */
 
-public class FridgeFragment extends Fragment {
+public class FridgeFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.fridge_recycler)
     RecyclerView fridgeRecyclerView;
@@ -44,6 +43,8 @@ public class FridgeFragment extends Fragment {
     DataRepository dataRepository;
     
     private FridgeAdapter mAdapter;
+
+    private List<FridgeItem> fridgeItems = new ArrayList<>();
 
     public static FridgeFragment newInstance() {
         FridgeFragment fragment = new FridgeFragment();
@@ -66,7 +67,9 @@ public class FridgeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setupRecyclerView();
+        dataRepository.getFridgeItems(this);
     }
 
     @OnClick(R.id.fab_add_item)
@@ -79,7 +82,7 @@ public class FridgeFragment extends Fragment {
     public void onBarcodeScanned(IntentResult result) {
         Toast.makeText(getContext(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
-        dataRepository.addFridgeItem(result.getContents());
+        dataRepository.addFridgeItem(result.getContents(), this);
     }
 
     private void setupRecyclerView() {
@@ -95,12 +98,23 @@ public class FridgeFragment extends Fragment {
         fridgeRecyclerView.addItemDecoration(new RecyclerViewSpacingDecorator(padding, padding));
 
         // specify an adapter (see also next example)
-        mAdapter = new FridgeAdapter(fridgeRecyclerView, getContext(), null);
+        mAdapter = new FridgeAdapter(fridgeRecyclerView, getContext(), fridgeItems);
         mAdapter.setHasStableIds(true);
         fridgeRecyclerView.setAdapter(mAdapter);
+    }
 
-        for (int i = 0; i < 10; i++) {
-            mAdapter.addStation(new FridgeItem());
-        }
+    @Override
+    public void onProductAdded() {
+
+    }
+
+    @Override
+    public void onReceiveFridgeItems(List<FridgeItem> items) {
+        mAdapter.setNewDataset(items);
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 }

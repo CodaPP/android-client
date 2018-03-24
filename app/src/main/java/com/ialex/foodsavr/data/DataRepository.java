@@ -7,6 +7,7 @@ import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 import com.ialex.foodsavr.presentation.screen.login.LoginCallback;
+import com.ialex.foodsavr.presentation.screen.main.fragments.ProductListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,7 +107,7 @@ public class DataRepository {
         });
     }
 
-    public void getFridgeItems() {
+    public void getFridgeItems(final ProductListener callback) {
         api.getFridgeItems().enqueue(new Callback<ProductsResponse>() {
             @Override
             public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
@@ -115,17 +116,25 @@ public class DataRepository {
                 }
 
                 ProductsResponse resp = response.body();
+
+                if (!resp.status) {
+                    callback.onError(resp.error);
+                    return;
+                }
+
                 Timber.d("Got %d products", resp.items.size());
+                callback.onReceiveFridgeItems(resp.items);
             }
 
             @Override
             public void onFailure(Call<ProductsResponse> call, Throwable t) {
                 Timber.d(t, "rip");
+                callback.onError("Retrofit failure callback");
             }
         });
     }
 
-    public void addFridgeItem(String barcode) {
+    public void addFridgeItem(String barcode, final ProductListener callback) {
         api.addFridgeItem(barcode, 1, null).enqueue(new Callback<AddFridgeItemResponse>() {
             @Override
             public void onResponse(Call<AddFridgeItemResponse> call, Response<AddFridgeItemResponse> response) {
@@ -135,14 +144,16 @@ public class DataRepository {
 
                 if (response.body().status) {
                     Timber.d("Successfully added product");
+                    callback.onProductAdded();
                 } else {
                     Timber.d("Couldn't add product");
+                    callback.onError(response.body().error);
                 }
             }
 
             @Override
             public void onFailure(Call<AddFridgeItemResponse> call, Throwable t) {
-
+                callback.onError("Retrofit callback failure");
             }
         });
     }

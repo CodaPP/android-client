@@ -54,6 +54,11 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void setNewDataset(List<FridgeItem> items) {
+        this.mItems = items;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public FridgeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -118,8 +123,8 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
 
             Glide.with(mContext).load("https://timedotcom.files.wordpress.com/2017/08/donald-trump1.jpg?quality=85").apply(RequestOptions.circleCropTransform()).into(stationImage);
 
-            stationTitleText.setText("Salam");
-            stationBioText.setText("de sibiu");
+            stationTitleText.setText(info.name);
+            stationBioText.setText(info.manufacturer);
 
             if (isExpanded) {
                 displayDetails();
