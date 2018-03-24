@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
-import com.ialex.foodsavr.presentation.screen.LoginActivity;
+import com.ialex.foodsavr.presentation.screen.login.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
 
 import javax.inject.Inject;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
+            finish();
             return;
         }
 

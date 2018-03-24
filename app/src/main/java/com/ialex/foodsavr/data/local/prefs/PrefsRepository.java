@@ -47,6 +47,16 @@ public class PrefsRepository {
         return passwordPreference.get();
     }
 
+    public void setUsername(String username) {
+        usernamePreference.set(username);
+    }
+
+    public void setPassword(String password) {
+        passwordPreference.set(password);
+    }
+
+    //
+
     public Set<String> getCookies() {
         return cookiesPreference.get();
     }

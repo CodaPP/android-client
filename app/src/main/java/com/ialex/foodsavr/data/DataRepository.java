@@ -4,6 +4,7 @@ import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.Api;
 import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
+import com.ialex.foodsavr.presentation.screen.login.LoginCallback;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,11 +25,12 @@ public class DataRepository {
         this.prefsRepository = prefsRepository;
     }
 
-    public void register(String user, String email, String password) {
+    public void register(String user, String email, String password, final LoginCallback callback) {
         api.register(user, email, password).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) {
+                    callback.onLoginError("Unknown error!");
                     return;
                 }
 
@@ -36,24 +38,27 @@ public class DataRepository {
                 if (resp.status) {
                     Timber.d("Register succes");
 
-                    test();
+                    callback.onLoginSuccess();
                 } else {
                     Timber.d("Couldn't register you... reason %s", resp.error);
+                    callback.onLoginError(resp.error);
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 Timber.e(t, "Failed register");
+                callback.onLoginError("Retrofit failed callback");
             }
         });
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password, final LoginCallback callback) {
         api.login(email, password).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) {
+                    callback.onLoginError("Unknown error!");
                     return;
                 }
 
@@ -61,15 +66,16 @@ public class DataRepository {
                 if (resp.status) {
                     Timber.d("Logged in");
 
-                    test();
+                    callback.onLoginSuccess();
                 } else {
+                    callback.onLoginError(resp.error);
                     Timber.d("Couldn't register you... reason %s", resp.error);
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
-
+                callback.onLoginError("Retrofit failed callback");
             }
         });
     }

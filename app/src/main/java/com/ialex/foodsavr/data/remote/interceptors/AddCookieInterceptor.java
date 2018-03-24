@@ -1,5 +1,6 @@
 package com.ialex.foodsavr.data.remote.interceptors;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
@@ -27,7 +28,7 @@ public class AddCookieInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
         HashSet<String> cookies = (HashSet) prefsRepository.getCookies();
 
