@@ -29,6 +29,9 @@ import timber.log.Timber;
 
 public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeViewHolder> {
 
+    private final String BEST_BEFORE = "Best before: %s";
+    private final String USE_BY = "Use by: %s";
+
     private final Context mContext;
     private final LayoutInflater mInflater;
 
@@ -87,10 +90,22 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         ImageView stationImage;
 
         @BindView(R.id.text_station_name)
-        TextView stationTitleText;
+        TextView itemName;
 
         @BindView(R.id.text_station_bio)
-        TextView stationBioText;
+        TextView itemManufacturer;
+
+        @BindView(R.id.text_quantity)
+        TextView itemQuantity;
+
+        @BindView(R.id.text_best_before)
+        TextView itemBestBefore;
+
+        @BindView(R.id.text_use_by)
+        TextView itemUseBy;
+
+        @BindView(R.id.divider1)
+        View divider1;
 
         boolean isExpanded;
         private int position;
@@ -113,7 +128,7 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             TransitionManager.beginDelayedTransition(mRecyclerView);
 
             //Expand new item clicked
-            notifyItemChanged(position);
+            notifyDataSetChanged();
         }
 
         public void bind(FridgeItem info, int position) {
@@ -123,8 +138,11 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
 
             Glide.with(mContext).load("https://timedotcom.files.wordpress.com/2017/08/donald-trump1.jpg?quality=85").apply(RequestOptions.circleCropTransform()).into(stationImage);
 
-            stationTitleText.setText(info.name);
-            stationBioText.setText(info.manufacturer);
+            itemName.setText(info.name);
+            itemManufacturer.setText(info.manufacturer);
+            itemQuantity.setText(String.valueOf(info.quantity));
+            itemBestBefore.setText(String.format(BEST_BEFORE, info.bestBefore));
+            itemUseBy.setText(String.format(USE_BY, info.useBy));
 
             if (isExpanded) {
                 displayDetails();
@@ -134,11 +152,18 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         }
 
         private void displayDetails() {
-            stationBioText.setMaxLines(10);
+            itemManufacturer.setMaxLines(10);
+            divider1.setVisibility(View.VISIBLE);
+            itemBestBefore.setVisibility(View.VISIBLE);
+            itemUseBy.setVisibility(View.VISIBLE);
+
         }
 
         private void hideDetails() {
-            stationBioText.setMaxLines(1);
+            itemManufacturer.setMaxLines(1);
+            divider1.setVisibility(View.GONE);
+            itemBestBefore.setVisibility(View.GONE);
+            itemUseBy.setVisibility(View.GONE);
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.component.MiscUtils;
@@ -14,6 +15,8 @@ import com.sirvar.robin.RobinActivity;
 import com.sirvar.robin.Theme;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 /**
  * Created by alex on 24/03/2018.
@@ -56,6 +59,8 @@ public class LoginActivity extends RobinActivity implements LoginCallback {
             Toast.makeText(this, "You are not connected to the internet", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        Timber.d( "token %s", FirebaseInstanceId.getInstance().getToken());
 
         prefsRepository.setUsername(email);
         prefsRepository.setPassword(password);
