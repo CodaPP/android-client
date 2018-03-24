@@ -7,6 +7,7 @@ import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 import com.ialex.foodsavr.presentation.screen.login.LoginCallback;
+import com.ialex.foodsavr.presentation.screen.main.SignOutListener;
 import com.ialex.foodsavr.presentation.screen.main.fragments.ProductListener;
 
 import retrofit2.Call;
@@ -83,7 +84,7 @@ public class DataRepository {
         });
     }
 
-    public void logout() {
+    public void logout(final SignOutListener callback) {
         api.logout().enqueue(new Callback<AddFridgeItemResponse>() {
             @Override
             public void onResponse(Call<AddFridgeItemResponse> call, Response<AddFridgeItemResponse> response) {
@@ -93,6 +94,8 @@ public class DataRepository {
 
                 prefsRepository.setUsername(null);
                 prefsRepository.setPassword(null);
+
+                callback.onSignOut();
             }
 
             @Override

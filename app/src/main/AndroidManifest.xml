@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:name=".component.FoodApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.screen.main.MainActivity">
+        <activity android:name=".presentation.screen.main.MainActivity"
+            android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
