@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements SignOutListener {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header2)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Mike Penz").withEmail(prefsRepository.getUsername()).withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withName(prefsRepository.getName()).withEmail(prefsRepository.getUsername()).withIcon(getResources().getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override

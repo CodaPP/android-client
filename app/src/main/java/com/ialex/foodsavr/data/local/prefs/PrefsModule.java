@@ -49,6 +49,13 @@ public class PrefsModule {
     }
 
     @Provides
+    @Named("name")
+    @Singleton
+    StringPreference provideNameData(SharedPreferences preferences) {
+        return new StringPreference(preferences, "name", null);
+    }
+
+    @Provides
     @Named("cookies")
     @Singleton
     StringSetPreference provideCookiesPreference(SharedPreferences preferences) {

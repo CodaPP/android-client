@@ -75,6 +75,7 @@ public class LoginActivity extends RobinActivity implements LoginCallback {
             return;
         }
 
+        prefsRepository.setName(name);
         prefsRepository.setUsername(email);
         prefsRepository.setPassword(password);
 
@@ -106,6 +107,7 @@ public class LoginActivity extends RobinActivity implements LoginCallback {
 
     @Override
     public void onLoginError(String message) {
+        prefsRepository.setName(null);
         prefsRepository.setUsername(null);
         prefsRepository.setPassword(null);
 

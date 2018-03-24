@@ -66,9 +66,11 @@ public class DataRepository {
                     return;
                 }
 
-                BaseResponse resp = response.body();
+                RegisterResponse resp = response.body();
                 if (resp.status) {
                     Timber.d("Logged in");
+
+                    prefsRepository.setName(resp.name);
 
                     callback.onLoginSuccess();
                 } else {

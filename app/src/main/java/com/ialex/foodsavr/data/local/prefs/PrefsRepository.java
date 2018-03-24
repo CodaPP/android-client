@@ -25,6 +25,10 @@ public class PrefsRepository {
     StringPreference passwordPreference;
 
     @Inject
+    @Named("name")
+    StringPreference namePreference;
+
+    @Inject
     @Named("cookies")
     StringSetPreference cookiesPreference;
 
@@ -47,12 +51,20 @@ public class PrefsRepository {
         return passwordPreference.get();
     }
 
+    public String getName() {
+        return namePreference.get();
+    }
+
     public void setUsername(String username) {
         usernamePreference.set(username);
     }
 
     public void setPassword(String password) {
         passwordPreference.set(password);
+    }
+
+    public void setName(String name) {
+        namePreference.set(name);
     }
 
     //
