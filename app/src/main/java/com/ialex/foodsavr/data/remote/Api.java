@@ -32,6 +32,10 @@ public interface Api {
     Call<RegisterResponse> login(@Field("email") String email,
                                  @Field("password") String password);
 
+    @POST("/FoodSavr/public/logout")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<AddFridgeItemResponse> logout();
+
     @FormUrlEncoded
     @POST("/FoodSavr/public/user/addFridgeItems")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})

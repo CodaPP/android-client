@@ -83,6 +83,25 @@ public class DataRepository {
         });
     }
 
+    public void logout() {
+        api.logout().enqueue(new Callback<AddFridgeItemResponse>() {
+            @Override
+            public void onResponse(Call<AddFridgeItemResponse> call, Response<AddFridgeItemResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                prefsRepository.setUsername(null);
+                prefsRepository.setPassword(null);
+            }
+
+            @Override
+            public void onFailure(Call<AddFridgeItemResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void test() {
         api.testLogin().enqueue(new Callback<RegisterResponse>() {
             @Override
