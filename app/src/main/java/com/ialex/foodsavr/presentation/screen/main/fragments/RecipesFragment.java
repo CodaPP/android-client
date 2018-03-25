@@ -1,9 +1,12 @@
 package com.ialex.foodsavr.presentation.screen.main.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.RecipeItem;
+import com.ialex.foodsavr.presentation.screen.details.RecipeDetailsActivity;
 import com.ialex.foodsavr.presentation.screen.main.RecipesCardAdapter;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
@@ -82,6 +86,13 @@ public class RecipesFragment extends Fragment implements RecipesListener {
 
             @Override
             public void onCardSwiped(SwipeDirection direction) {
+                if (direction.equals(SwipeDirection.Right)) {
+                    Intent i = new Intent(getContext(), RecipeDetailsActivity.class);
+                    i.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_INFO, oldItems.get(cardStackView.getTopIndex() - 1));
+
+                    startActivity(i);
+                }
+
                 Timber.d("onCardSwiped: " + direction.toString());
                 Timber.d("topIndex: " + cardStackView.getTopIndex());
                 if (cardStackView.getTopIndex() == adapter.getCount() - 5) {

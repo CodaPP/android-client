@@ -21,4 +21,5 @@
     <string name="app_id">42785311748</string>
     <string name="no_items_in_fridge">Momentan nu aveti nici un produs in frigider. Apasati pe \"+\" pentru a incepe</string>
     <string name="no_items_donated">Momentan nu ati donat nici un produs. Pentru a dona un produs, intrati in frigider mai intai</string>
+    <string name="station_image_transition">image_transition</string>
 </resources>

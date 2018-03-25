@@ -17,6 +17,7 @@
             android:id="@+id/item_recipe_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:transitionName="@string/station_image_transition"
             android:scaleType="centerCrop"/>
 
         <LinearLayout

@@ -13,6 +13,8 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:clipToPadding="false"
+        app:leftOverlay="@layout/overlay_left"
+        app:rightOverlay="@layout/overlay_right"
         app:visibleCount="3"
         app:swipeThreshold="0.75"
         app:translationDiff="12"

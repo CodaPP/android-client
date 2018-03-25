@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ialex.foodsavr.R;
@@ -15,6 +16,7 @@ import com.ialex.foodsavr.data.remote.models.RecipeItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alex on 25/03/2018.
@@ -27,7 +29,7 @@ public class RecipesCardAdapter extends ArrayAdapter<RecipeItem> {
     }
 
     @Override
-    public View getView(int position, View contentView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View contentView, @NonNull ViewGroup parent) {
         ViewHolder holder;
 
         if (contentView == null) {
