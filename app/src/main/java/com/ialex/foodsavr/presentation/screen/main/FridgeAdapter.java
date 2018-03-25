@@ -20,6 +20,7 @@ import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
+import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,7 +218,13 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
                 return;
             }
 
-            dataRepository.donateItems(item.itemId, quantity);
+            if (mContext instanceof MainActivity) {
+                FridgeFragment fridge = ((MainActivity) mContext).getFridgeFragment();
+
+                if (fridge != null) {
+                    fridge.donate(item.itemId, quantity);
+                }
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.ialex.foodsavr.presentation.screen.main.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -39,6 +40,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 /**
  * Created by alex on 24/03/2018.
@@ -54,6 +58,9 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.fab_add_item)
     FloatingActionButton fab;
+
+    @BindView(R.id.konfetti)
+    KonfettiView konfettiView;
 
     @Inject
     DataRepository dataRepository;
@@ -154,6 +161,12 @@ public class FridgeFragment extends Fragment implements ProductListener {
     }
 
     @Override
+    public void onProductShared() {
+        konfettiBurst();
+        dataRepository.getFridgeItems(this);
+    }
+
+    @Override
     public void onProductAdded(AddFridgeItemResponse response) {
         askNextRequiredInfo(response, new TempItemInfo());
     }
@@ -167,6 +180,10 @@ public class FridgeFragment extends Fragment implements ProductListener {
     @Override
     public void onError(String error) {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void donate(int itemId, int quantity) {
+        dataRepository.donateItems(itemId, quantity, this);
     }
 
     private void askNextRequiredInfo(final AddFridgeItemResponse response, final TempItemInfo tempItemInfo) {
@@ -225,5 +242,17 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
         dataRepository.updateItemInfo(response.requiredInfo.barcode, tempItemInfo.manufacturer, tempItemInfo.name);
         dataRepository.getFridgeItems(this);
+    }
+
+    public void konfettiBurst() {
+        konfettiView.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                .stream(150, 2000L);
     }
 }

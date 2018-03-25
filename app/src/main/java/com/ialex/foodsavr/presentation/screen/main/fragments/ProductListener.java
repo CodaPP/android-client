@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface ProductListener {
 
+    void onProductShared();
+
     void onProductAdded(AddFridgeItemResponse response);
 
     void onReceiveFridgeItems(List<FridgeItem> items);

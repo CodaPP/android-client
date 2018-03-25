@@ -47,6 +47,7 @@ dependencies {
     }
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.sirvar:robin:0.0.1'
+    implementation 'nl.dionsegijn:konfetti:1.1.0'
 
     implementation 'com.yanzhenjie.zbar:zbar:1.0.0'
     implementation 'com.yanzhenjie.zbar:camera:1.0.0'

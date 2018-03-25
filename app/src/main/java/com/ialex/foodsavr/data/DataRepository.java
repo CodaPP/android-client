@@ -226,7 +226,7 @@ public class DataRepository {
         });
     }
 
-    public void donateItems(int id, int quantity) {
+    public void donateItems(int id, int quantity, final ProductListener callback) {
         api.donateItems(id, quantity).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
@@ -236,14 +236,16 @@ public class DataRepository {
 
                 if (response.body().status) {
                     Timber.d("Items donated successfully");
+                    callback.onProductShared();
                 } else {
                     Timber.d("Couldn't donate items");
+                    callback.onError(response.body().error);
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
-
+                callback.onError("Retrofit failure callback");
             }
         });
     }

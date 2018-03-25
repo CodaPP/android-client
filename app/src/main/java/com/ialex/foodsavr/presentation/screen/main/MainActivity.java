@@ -223,4 +223,8 @@ public class MainActivity extends AppCompatActivity implements SignOutListener {
 
         finish();
     }
+
+    public FridgeFragment getFridgeFragment() {
+        return fridgeFragment;
+    }
 }
