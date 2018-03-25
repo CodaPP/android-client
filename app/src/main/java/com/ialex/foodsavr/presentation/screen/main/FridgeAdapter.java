@@ -2,21 +2,29 @@ package com.ialex.foodsavr.presentation.screen.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.transition.TransitionManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ialex.foodsavr.R;
+import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,11 +48,16 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
 
     private List<FridgeItem> mItems;
 
+    @Inject
+    DataRepository dataRepository;
+
     public FridgeAdapter(RecyclerView recyclerView, Context context, List<FridgeItem> items) {
         this.mRecyclerView = recyclerView;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mItems = items;
+
+        FoodApplication.component().inject(this);
     }
 
     public void addStation(FridgeItem fridgeItem) {
@@ -104,11 +117,16 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         @BindView(R.id.text_use_by)
         TextView itemUseBy;
 
+        @BindView(R.id.donate_food)
+        FloatingActionButton donateButton;
+
         @BindView(R.id.divider1)
         View divider1;
 
         boolean isExpanded;
         private int position;
+
+        private FridgeItem item;
 
         public FridgeViewHolder(View itemView) {
             super(itemView);
@@ -131,7 +149,29 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             notifyDataSetChanged();
         }
 
+        @OnClick(R.id.donate_food)
+        void donate() {
+            new MaterialDialog.Builder(mContext)
+                    .title(R.string.dialog_title_manufacturer)
+                    .content(R.string.dialog_content_manufacturer)
+                    .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER)
+                    .input(R.string.dialog_hint_manufacturer, R.string.dialog_prefill_manufacturer, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            // Do something
+                            try {
+                                Integer quantity = Integer.parseInt(input.toString());
+                                donate(quantity);
+                            } catch (Exception e) {
+                                Timber.e(e);
+                            }
+                        }
+                    })
+                    .show();
+        }
+
         public void bind(FridgeItem info, int position) {
+            this.item = info;
             this.position = position;
             isExpanded = position == mExpandedPosition;
             Timber.d("Item position: %d => %b", getAdapterPosition(), isExpanded);
@@ -159,6 +199,7 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             divider1.setVisibility(View.VISIBLE);
             itemBestBefore.setVisibility(View.VISIBLE);
             itemUseBy.setVisibility(View.VISIBLE);
+            donateButton.setVisibility(View.VISIBLE);
 
         }
 
@@ -167,6 +208,16 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             divider1.setVisibility(View.GONE);
             itemBestBefore.setVisibility(View.GONE);
             itemUseBy.setVisibility(View.GONE);
+            donateButton.setVisibility(View.GONE);
+        }
+
+        private void donate(int quantity) {
+            if (quantity > item.quantity) {
+                Toast.makeText(mContext, "Nu puteti dona mai multe alimente decate detineti!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            dataRepository.donateItems(item.itemId, quantity);
         }
     }
 }

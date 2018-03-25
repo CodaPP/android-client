@@ -18,7 +18,7 @@ import retrofit2.http.POST;
 
 public interface Api {
     String URL_PROD_BASE = "http://defcon33.ddns.net/";
-    String URL_PROD_TEST = "http://192.168.43.46/";
+    String URL_PROD_TEST = "http://yumpi.ddns.net/";
 
     @FormUrlEncoded
     @POST("/FoodSavr/public/register")
@@ -63,6 +63,12 @@ public interface Api {
     @GET("/FoodSavr/public/user/getFridgeItems")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<ProductsResponse> getFridgeItems();
+
+
+    @FormUrlEncoded
+    @POST("/FoodSavr/public/user/donateItems")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<BaseResponse> donateItems(@Field("id") Integer productId, @Field("quantity") Integer quantity);
 
     /*@POST("/user/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})

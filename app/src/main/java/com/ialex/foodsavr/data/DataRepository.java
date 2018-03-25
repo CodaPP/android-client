@@ -225,4 +225,26 @@ public class DataRepository {
             }
         });
     }
+
+    public void donateItems(int id, int quantity) {
+        api.donateItems(id, quantity).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                if (response.body().status) {
+                    Timber.d("Items donated successfully");
+                } else {
+                    Timber.d("Couldn't donate items");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+            }
+        });
+    }
 }

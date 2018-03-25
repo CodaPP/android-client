@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class FridgeItem {
 
+    @SerializedName("ID")
+    public Integer itemId;
+
     @SerializedName("Quantity")
     public Integer quantity;
 

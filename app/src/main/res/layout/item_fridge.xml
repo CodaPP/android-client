@@ -57,13 +57,28 @@
                 android:id="@+id/text_use_by" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_quantity"
-            android:padding="2dp"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:gravity="center"
-            android:textSize="32sp"
-            android:text="1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_quantity"
+                android:padding="2dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:gravity="center"
+                android:textSize="32sp"
+                android:text="1"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:id="@+id/donate_food"
+                android:src="@drawable/ic_gaina_32dp"
+                app:backgroundTint="@color/primary"
+                app:fabSize="normal"/>
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
