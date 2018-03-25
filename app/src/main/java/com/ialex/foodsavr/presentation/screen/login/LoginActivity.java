@@ -99,6 +99,8 @@ public class LoginActivity extends RobinActivity implements LoginCallback {
 
     @Override
     public void onLoginSuccess() {
+        dataRepository.setFirebaseRefreshToken(FirebaseInstanceId.getInstance().getToken());
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 

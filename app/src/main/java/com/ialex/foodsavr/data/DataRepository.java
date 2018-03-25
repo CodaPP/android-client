@@ -203,4 +203,26 @@ public class DataRepository {
             }
         });
     }
+
+    public void setFirebaseRefreshToken(String token) {
+        api.sendRefreshToken(token).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                if (response.body().status) {
+                    Timber.d("Successfully sent token");
+                } else {
+                    Timber.d("Couldn't send token");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+            }
+        });
+    }
 }

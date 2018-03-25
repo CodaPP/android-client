@@ -2,6 +2,9 @@ package com.ialex.foodsavr.component;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.ialex.foodsavr.data.DataRepository;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -10,6 +13,14 @@ import timber.log.Timber;
  */
 
 public class MyFirebaseIdService extends FirebaseInstanceIdService {
+
+    @Inject
+    DataRepository dataRepository;
+
+    public MyFirebaseIdService() {
+        super();
+        FoodApplication.component().inject(this);
+    }
 
     @Override
     public void onTokenRefresh() {
@@ -31,5 +42,6 @@ public class MyFirebaseIdService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
+        dataRepository.setFirebaseRefreshToken(token);
     }
 }

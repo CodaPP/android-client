@@ -3,6 +3,7 @@ package com.ialex.foodsavr.injection;
 import android.content.Context;
 
 import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.component.MyFirebaseIdService;
 import com.ialex.foodsavr.data.DataModule;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.local.prefs.PrefsModule;
@@ -26,6 +27,8 @@ public interface AppComponent {
     void inject(FridgeFragment fragment);
 
     void inject(LoginActivity activity);
+
+    void inject(MyFirebaseIdService service);
 
     PrefsRepository prefsRepository();
 

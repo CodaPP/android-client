@@ -38,6 +38,11 @@ public interface Api {
     Call<AddFridgeItemResponse> logout();
 
     @FormUrlEncoded
+    @POST("/FoodSavr/public/user/sendToken")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<BaseResponse> sendRefreshToken(@Field("token") String token);
+
+    @FormUrlEncoded
     @POST("/FoodSavr/public/user/addFridgeItems")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<AddFridgeItemResponse> addFridgeItem(@Field("barcode") String barcode,

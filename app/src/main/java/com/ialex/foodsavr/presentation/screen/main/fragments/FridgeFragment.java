@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.component.MiscUtils;
@@ -88,10 +87,10 @@ public class FridgeFragment extends Fragment implements ProductListener {
         }
     }
 
-    public void onBarcodeScanned(IntentResult result) {
-        Toast.makeText(getContext(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+    public void onBarcodeScanned(String barcode) {
+        Toast.makeText(getContext(), "Scanned: " + barcode, Toast.LENGTH_LONG).show();
 
-        dataRepository.addFridgeItem(result.getContents(), this);
+        dataRepository.addFridgeItem(barcode, this);
     }
 
     private void setupRecyclerView() {
@@ -179,9 +178,14 @@ public class FridgeFragment extends Fragment implements ProductListener {
         }
 
         if (tempItemInfo.manufacturer == null && tempItemInfo.name == null) {
+            //refresh the items
+            dataRepository.getFridgeItems(this);
             return;
         }
 
+        Toast.makeText(getContext(), "Va multumim pentru feedback!", Toast.LENGTH_SHORT).show();
+
         dataRepository.updateItemInfo(response.requiredInfo.barcode, tempItemInfo.manufacturer, tempItemInfo.name);
+        dataRepository.getFridgeItems(this);
     }
 }

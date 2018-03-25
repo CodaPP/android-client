@@ -12,12 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
+import com.ialex.foodsavr.presentation.screen.barcode.BarcodeActivity;
 import com.ialex.foodsavr.presentation.screen.login.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FoodShareFragment;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
@@ -41,6 +40,8 @@ import timber.log.Timber;
 
 @RuntimePermissions
 public class MainActivity extends AppCompatActivity implements SignOutListener {
+
+    private final int RC_SCAN_BARCODE = 10;
 
     @BindView(R.id.navigation)
     BottomNavigationView bottomNavigationView;
@@ -89,36 +90,37 @@ public class MainActivity extends AppCompatActivity implements SignOutListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                Timber.d(result.getContents());
+        super.onActivityResult(requestCode, resultCode, data);
 
-                broadcastScannedBarcode(result);
+        if (requestCode == RC_SCAN_BARCODE) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra(BarcodeActivity.EXTRA_BARCODE);
+
+                if (result != null) {
+                    broadcastScannedBarcode(result);
+                }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
     void showScannerActivity() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
+        /*IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt("Scan a barcode");
         integrator.setBeepEnabled(false);
         integrator.setBarcodeImageEnabled(false);
-        integrator.initiateScan();
+        integrator.initiateScan();*/
+        Intent intent = new Intent(this, BarcodeActivity.class);
+        startActivityForResult(intent, RC_SCAN_BARCODE);
     }
 
     public void showScannerWrapper() {
         MainActivityPermissionsDispatcher.showScannerActivityWithPermissionCheck(this);
     }
 
-    public void broadcastScannedBarcode(IntentResult result) {
+    public void broadcastScannedBarcode(String barcode) {
         if (fridgeFragment != null) {
-            fridgeFragment.onBarcodeScanned(result);
+            fridgeFragment.onBarcodeScanned(barcode);
         }
     }
 
