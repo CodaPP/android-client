@@ -14,4 +14,6 @@
     <string name="dialog_content_name">Se pare ca acest produse nu se afla in baza noastra de date. \nAjutati-ne prin a contribui cu numele acestui produs</string>
     <string name="dialog_hint_name">Nume</string>
     <string name="dialog_prefill_name"></string>
+
+    <string name="app_id">42785311748</string>
 </resources>

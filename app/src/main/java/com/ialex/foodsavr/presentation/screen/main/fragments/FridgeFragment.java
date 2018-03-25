@@ -1,8 +1,10 @@
 package com.ialex.foodsavr.presentation.screen.main.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,10 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -45,6 +51,9 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.fab_add_item)
+    FloatingActionButton fab;
 
     @Inject
     DataRepository dataRepository;
@@ -87,10 +96,34 @@ public class FridgeFragment extends Fragment implements ProductListener {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showFab();
+            }
+        }, 300);
+    }
+
     public void onBarcodeScanned(String barcode) {
         Toast.makeText(getContext(), "Scanned: " + barcode, Toast.LENGTH_LONG).show();
 
         dataRepository.addFridgeItem(barcode, this);
+    }
+
+    private void showFab() {
+        ScaleAnimation anim = new ScaleAnimation(0,1,0,1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1f);
+        anim.setFillBefore(true);
+        anim.setFillAfter(true);
+        anim.setFillEnabled(true);
+        anim.setDuration(300);
+        anim.setInterpolator(new OvershootInterpolator());
+        fab.startAnimation(anim);
+
+        fab.setVisibility(View.VISIBLE);
     }
 
     private void setupRecyclerView() {
