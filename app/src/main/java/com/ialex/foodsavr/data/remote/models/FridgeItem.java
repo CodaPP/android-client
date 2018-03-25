@@ -31,4 +31,7 @@ public class FridgeItem {
 
     @SerializedName("BestBefore")
     public String bestBefore;
+
+    @SerializedName("ClaimedBy")
+    public String claimedBy;
 }

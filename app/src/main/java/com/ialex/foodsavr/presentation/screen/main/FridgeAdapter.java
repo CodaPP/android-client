@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.component.MiscUtils;
 import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
@@ -180,7 +181,7 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             RequestOptions options = new RequestOptions()
                     .placeholder(R.drawable.ic_milk_24dp);
 
-            Glide.with(mContext).load(info.photo).apply(options).apply(RequestOptions.circleCropTransform()).into(stationImage);
+            Glide.with(mContext).load(MiscUtils.getPhotoUrl(item)).apply(options).apply(RequestOptions.circleCropTransform()).into(stationImage);
 
             itemName.setText(info.name);
             itemManufacturer.setText(info.manufacturer);
@@ -190,6 +191,9 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
 
             if (isExpanded) {
                 displayDetails();
+
+                itemBestBefore.setVisibility(item.bestBefore != null ? View.VISIBLE : View.GONE);
+                itemUseBy.setVisibility(item.useBy != null ? View.VISIBLE : View.GONE);
             } else {
                 hideDetails();
             }

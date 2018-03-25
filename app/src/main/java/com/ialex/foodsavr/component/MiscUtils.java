@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import com.ialex.foodsavr.data.remote.models.FridgeItem;
+
 /**
  * Created by alex on 27.09.2017.
  */
@@ -78,5 +80,9 @@ public class MiscUtils {
         }
         sb.append(data[data.length - 1].trim());
         return sb.toString();
+    }
+
+    public static String getPhotoUrl(FridgeItem item) {
+        return "http://yumpi.ddns.net/FoodSavr/resources/assets/img/" + item.photo;
     }
 }
