@@ -1,9 +1,12 @@
 package com.ialex.foodsavr.data.remote;
 
+import com.ialex.foodsavr.data.remote.models.RecipeItem;
 import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
 import com.ialex.foodsavr.data.remote.response.RegisterResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -72,6 +75,10 @@ public interface Api {
     @POST("/FoodSavr/public/user/donateItems")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<BaseResponse> donateItems(@Field("id") Integer productId, @Field("quantity") Integer quantity);
+
+    @GET("/FoodSavr/public/getRecipes")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<List<RecipeItem>> getRecipes();
 
     /*@POST("/user/login")
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})

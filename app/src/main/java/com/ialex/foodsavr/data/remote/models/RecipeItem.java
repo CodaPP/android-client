@@ -1,20 +1,24 @@
 package com.ialex.foodsavr.data.remote.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by alex on 25/03/2018.
  */
 
 public class RecipeItem {
 
+    @SerializedName("ID")
+    public Integer id;
+
+    @SerializedName("Name")
     public String name;
 
-    public String url;
+    @SerializedName("Photo")
+    public String photo;
 
-    public String description;
-
-    public RecipeItem(String name, String description, String url) {
-        this.name = name;
-        this.description = description;
-        this.url = url;
-    }
+    @SerializedName("Ingredients")
+    public List<String> ingredients;
 }

@@ -42,8 +42,8 @@ public class RecipesCardAdapter extends ArrayAdapter<RecipeItem> {
         RecipeItem recipe = getItem(position);
 
         holder.name.setText(recipe.name);
-        holder.description.setText(recipe.description);
-        Glide.with(getContext()).load(recipe.url).into(holder.image);
+        //older.description.setText(recipe.description);
+        Glide.with(getContext()).load(recipe.photo).into(holder.image);
 
         return contentView;
     }

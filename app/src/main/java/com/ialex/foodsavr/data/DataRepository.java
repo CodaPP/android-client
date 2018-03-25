@@ -2,6 +2,7 @@ package com.ialex.foodsavr.data;
 
 import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.Api;
+import com.ialex.foodsavr.data.remote.models.RecipeItem;
 import com.ialex.foodsavr.data.remote.response.AddFridgeItemResponse;
 import com.ialex.foodsavr.data.remote.response.BaseResponse;
 import com.ialex.foodsavr.data.remote.response.ProductsResponse;
@@ -9,6 +10,9 @@ import com.ialex.foodsavr.data.remote.response.RegisterResponse;
 import com.ialex.foodsavr.presentation.screen.login.LoginCallback;
 import com.ialex.foodsavr.presentation.screen.main.SignOutListener;
 import com.ialex.foodsavr.presentation.screen.main.fragments.ProductListener;
+import com.ialex.foodsavr.presentation.screen.main.fragments.RecipesListener;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -271,6 +275,24 @@ public class DataRepository {
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                callback.onError("Retrofit failure callback");
+            }
+        });
+    }
+
+    public void getRecipes(final RecipesListener callback) {
+        api.getRecipes().enqueue(new Callback<List<RecipeItem>>() {
+            @Override
+            public void onResponse(Call<List<RecipeItem>> call, Response<List<RecipeItem>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                callback.onNewRecipes(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<RecipeItem>> call, Throwable t) {
                 callback.onError("Retrofit failure callback");
             }
         });

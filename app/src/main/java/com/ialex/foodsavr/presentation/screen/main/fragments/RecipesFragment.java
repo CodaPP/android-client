@@ -7,16 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
+import com.ialex.foodsavr.data.DataRepository;
 import com.ialex.foodsavr.data.remote.models.RecipeItem;
 import com.ialex.foodsavr.presentation.screen.main.RecipesCardAdapter;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.SwipeDirection;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,12 +29,17 @@ import timber.log.Timber;
  * Created by alex on 24/03/2018.
  */
 
-public class RecipesFragment extends Fragment {
+public class RecipesFragment extends Fragment implements RecipesListener {
 
     @BindView(R.id.recipes_card_stack_view)
     CardStackView cardStackView;
 
+    @Inject
+    DataRepository dataRepository;
+
     private RecipesCardAdapter adapter;
+
+    private List<RecipeItem> oldItems;
 
     public static RecipesFragment newInstance() {
         RecipesFragment fragment = new RecipesFragment();
@@ -56,26 +64,12 @@ public class RecipesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupCardStack();
-    }
 
-    private List<RecipeItem> createTouristSpots() {
-        List<RecipeItem> spots = new ArrayList<>();
-        spots.add(new RecipeItem("Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI/600x800"));
-        spots.add(new RecipeItem("Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc/600x800"));
-        spots.add(new RecipeItem("Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ/600x800"));
-        spots.add(new RecipeItem("Brooklyn Bridge", "New York", "https://source.unsplash.com/THozNzxEP3g/600x800"));
-        spots.add(new RecipeItem("Empire State Building", "New York", "https://source.unsplash.com/USrZRcRS2Lw/600x800"));
-        spots.add(new RecipeItem("The statue of Liberty", "New York", "https://source.unsplash.com/PeFk7fzxTdk/600x800"));
-        spots.add(new RecipeItem("Louvre Museum", "Paris", "https://source.unsplash.com/LrMWHKqilUw/600x800"));
-        spots.add(new RecipeItem("Eiffel Tower", "Paris", "https://source.unsplash.com/HN-5Z6AmxrM/600x800"));
-        spots.add(new RecipeItem("Big Ben", "London", "https://source.unsplash.com/CdVAUADdqEc/600x800"));
-        spots.add(new RecipeItem("Great Wall of China", "China", "https://source.unsplash.com/AWh9C-QjhE4/600x800"));
-        return spots;
+        dataRepository.getRecipes(this);
     }
 
     private RecipesCardAdapter createTouristSpotCardAdapter() {
         final RecipesCardAdapter adapter = new RecipesCardAdapter(getContext());
-        adapter.addAll(createTouristSpots());
         return adapter;
     }
 
@@ -92,7 +86,7 @@ public class RecipesFragment extends Fragment {
                 Timber.d("topIndex: " + cardStackView.getTopIndex());
                 if (cardStackView.getTopIndex() == adapter.getCount() - 5) {
                     Timber.d("Paginate: " + cardStackView.getTopIndex());
-                    //paginate();
+                    paginate();
                 }
             }
 
@@ -115,5 +109,23 @@ public class RecipesFragment extends Fragment {
         adapter = createTouristSpotCardAdapter();
         cardStackView.setAdapter(adapter);
         cardStackView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onNewRecipes(List<RecipeItem> recipes) {
+        adapter.addAll(recipes);
+        adapter.notifyDataSetChanged();
+        oldItems = recipes;
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void paginate() {
+        cardStackView.setPaginationReserved();
+        adapter.addAll(oldItems);
+        adapter.notifyDataSetChanged();
     }
 }
