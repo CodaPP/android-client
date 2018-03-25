@@ -17,5 +17,7 @@ public interface ProductListener {
 
     void onReceiveFridgeItems(List<FridgeItem> items);
 
+    void onReceiveDonatedItems(List<FridgeItem> items);
+
     void onError(String error);
 }

@@ -11,6 +11,7 @@ import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.RemoteModule;
 import com.ialex.foodsavr.presentation.screen.login.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.FridgeAdapter;
+import com.ialex.foodsavr.presentation.screen.main.fragments.FoodShareFragment;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
 
 import javax.inject.Singleton;
@@ -32,6 +33,8 @@ public interface AppComponent {
     void inject(MyFirebaseIdService service);
 
     void inject(FridgeAdapter adapter);
+
+    void inject(FoodShareFragment fragment);
 
     PrefsRepository prefsRepository();
 

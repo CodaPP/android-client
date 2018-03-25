@@ -64,6 +64,9 @@ public interface Api {
     @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
     Call<ProductsResponse> getFridgeItems();
 
+    @GET("/FoodSavr/public/user/getDonatedItems")
+    @Headers({"Cache-Control: no-store, no-cache", "User-Agent: android"})
+    Call<ProductsResponse> getDonatedItems();
 
     @FormUrlEncoded
     @POST("/FoodSavr/public/user/donateItems")

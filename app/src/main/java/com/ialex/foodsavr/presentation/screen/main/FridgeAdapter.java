@@ -153,10 +153,10 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         @OnClick(R.id.donate_food)
         void donate() {
             new MaterialDialog.Builder(mContext)
-                    .title(R.string.dialog_title_manufacturer)
-                    .content(R.string.dialog_content_manufacturer)
+                    .title(item.name)
+                    .content(R.string.dialog_content_donate)
                     .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER)
-                    .input(R.string.dialog_hint_manufacturer, R.string.dialog_prefill_manufacturer, new MaterialDialog.InputCallback() {
+                    .input(R.string.dialog_hint_donate, R.string.dialog_prefill_manufacturer, new MaterialDialog.InputCallback() {
                         @Override
                         public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                             // Do something

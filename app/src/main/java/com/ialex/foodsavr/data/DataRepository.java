@@ -158,6 +158,32 @@ public class DataRepository {
         });
     }
 
+    public void getDonatedItems(final ProductListener callback) {
+        api.getDonatedItems().enqueue(new Callback<ProductsResponse>() {
+            @Override
+            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    return;
+                }
+
+                ProductsResponse resp = response.body();
+
+                if (!resp.status) {
+                    callback.onError(resp.error);
+                    return;
+                }
+
+                Timber.d("Got %d products", resp.items.size());
+                callback.onReceiveDonatedItems(resp.items);
+            }
+
+            @Override
+            public void onFailure(Call<ProductsResponse> call, Throwable t) {
+                callback.onError("Retrofit failure callback");
+            }
+        });
+    }
+
     public void addFridgeItem(String barcode, final ProductListener callback) {
         api.addFridgeItem(barcode, 1, null).enqueue(new Callback<AddFridgeItemResponse>() {
             @Override

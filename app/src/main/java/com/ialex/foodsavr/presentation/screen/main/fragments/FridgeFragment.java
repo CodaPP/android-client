@@ -37,12 +37,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
-import nl.dionsegijn.konfetti.models.Size;
 
 /**
  * Created by alex on 24/03/2018.
@@ -61,6 +61,18 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.konfetti)
     KonfettiView konfettiView;
+
+    @BindColor(R.color.md_amber_500)
+    int konfetti1;
+
+    @BindColor(R.color.md_green_500)
+    int konfetti2;
+
+    @BindColor(R.color.md_teal_500)
+    int konfetti3;
+
+    @BindColor(R.color.md_red_500)
+    int konfetti4;
 
     @Inject
     DataRepository dataRepository;
@@ -162,6 +174,8 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @Override
     public void onProductShared() {
+        Toast.makeText(getContext(), "Va multumim pentru donatie!", Toast.LENGTH_SHORT).show();
+
         konfettiBurst();
         dataRepository.getFridgeItems(this);
     }
@@ -175,6 +189,11 @@ public class FridgeFragment extends Fragment implements ProductListener {
     public void onReceiveFridgeItems(List<FridgeItem> items) {
         swipeRefreshLayout.setRefreshing(false);
         mAdapter.setNewDataset(items);
+    }
+
+    @Override
+    public void onReceiveDonatedItems(List<FridgeItem> items) {
+
     }
 
     @Override
@@ -246,9 +265,9 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     public void konfettiBurst() {
         konfettiView.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .addColors(konfetti1, konfetti2, konfetti3, konfetti4)
                 .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
+                .setSpeed(3f, 5f)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(2000L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)

@@ -15,5 +15,8 @@
     <string name="dialog_hint_name">Nume</string>
     <string name="dialog_prefill_name"></string>
 
+    <string name="dialog_content_donate">Intorduceti cantitatea de produse pe care doriti sa le donati</string>
+    <string name="dialog_hint_donate">1</string>
+
     <string name="app_id">42785311748</string>
 </resources>
