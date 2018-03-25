@@ -137,6 +137,11 @@ public class FridgeFragment extends Fragment implements ProductListener {
     }
 
     private void askNextRequiredInfo(final AddFridgeItemResponse response, final TempItemInfo tempItemInfo) {
+        if (getContext() == null) {
+            dataRepository.getFridgeItems(this);
+            return;
+        }
+
         if (response.requiredInfo.manufacturer) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.dialog_title_manufacturer)

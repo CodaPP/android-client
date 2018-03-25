@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "992267700681",
+    "firebase_url": "https://foodsavr-7774e.firebaseio.com",
+    "project_id": "foodsavr-7774e",
+    "storage_bucket": "foodsavr-7774e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992267700681:android:d7182d12a8b709d8",
+        "android_client_info": {
+          "package_name": "com.ialex.foodsavr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992267700681-gg264q4e5cbsirk8uidcpmd6tgdia19a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ialex.foodsavr",
+            "certificate_hash": "f69597b9ce43eb801fd33fd917e78042a9dd2c04"
+          }
+        },
+        {
+          "client_id": "992267700681-69jutkak0t8tvmoasl4srurl7oen12l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-_v2rWX4cNopLUiQRv4tn3xxoo1kFMU4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992267700681-69jutkak0t8tvmoasl4srurl7oen12l6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
