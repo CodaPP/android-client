@@ -136,7 +136,10 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             isExpanded = position == mExpandedPosition;
             Timber.d("Item position: %d => %b", getAdapterPosition(), isExpanded);
 
-            Glide.with(mContext).load("https://timedotcom.files.wordpress.com/2017/08/donald-trump1.jpg?quality=85").apply(RequestOptions.circleCropTransform()).into(stationImage);
+            RequestOptions options = new RequestOptions()
+                    .placeholder(R.drawable.ic_milk_24dp);
+
+            Glide.with(mContext).load(info.photo).apply(options).apply(RequestOptions.circleCropTransform()).into(stationImage);
 
             itemName.setText(info.name);
             itemManufacturer.setText(info.manufacturer);
