@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.yanzhenjie.zbar:zbar:1.0.0'
     implementation 'com.yanzhenjie.zbar:camera:1.0.0'
 
+    implementation 'com.yuyakaido.android:card-stack-view:1.0.0-beta9'
 
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'

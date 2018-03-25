@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements SignOutListener {
 
         setupBottomNavigationView();
         setupNavigationDrawer();
+
+        bottomNavigationView.setSelectedItemId(R.id.item_fridge);
     }
 
     @Override

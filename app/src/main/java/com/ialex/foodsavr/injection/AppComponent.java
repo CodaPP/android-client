@@ -13,6 +13,7 @@ import com.ialex.foodsavr.presentation.screen.login.LoginActivity;
 import com.ialex.foodsavr.presentation.screen.main.FridgeAdapter;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FoodShareFragment;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
+import com.ialex.foodsavr.presentation.screen.main.fragments.RecipesFragment;
 
 import javax.inject.Singleton;
 
@@ -35,6 +36,8 @@ public interface AppComponent {
     void inject(FridgeAdapter adapter);
 
     void inject(FoodShareFragment fragment);
+
+    void inject(RecipesFragment fragment);
 
     PrefsRepository prefsRepository();
 
