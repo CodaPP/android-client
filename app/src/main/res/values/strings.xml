@@ -6,16 +6,16 @@
     <string name="bottom_navigation_recipes">Recipes</string>
 
     <string name="dialog_title_manufacturer">Producator</string>
-    <string name="dialog_content_manufacturer">Se pare ca acest produse nu se afla in baza noastra de date. \nAjutati-ne prin a contribui cu producatorul acestui produs.</string>
+    <string name="dialog_content_manufacturer">Se pare ca acest produs nu se afla in baza noastra de date. \nAjutati-ne prin a contribui cu producatorul acestui produs.</string>
     <string name="dialog_hint_manufacturer">Producator</string>
     <string name="dialog_prefill_manufacturer"></string>
 
     <string name="dialog_title_name">Nume</string>
-    <string name="dialog_content_name">Se pare ca acest produse nu se afla in baza noastra de date. \nAjutati-ne prin a contribui cu numele acestui produs</string>
+    <string name="dialog_content_name">Se pare ca acest produs nu se afla in baza noastra de date. \nAjutati-ne prin a contribui cu numele acestui produs</string>
     <string name="dialog_hint_name">Nume</string>
     <string name="dialog_prefill_name"></string>
 
-    <string name="dialog_content_donate">Intorduceti cantitatea de produse pe care doriti sa le donati</string>
+    <string name="dialog_content_donate">Introduceti cantitatea de produse pe care doriti sa le donati</string>
     <string name="dialog_hint_donate">1</string>
 
     <string name="app_id">42785311748</string>
