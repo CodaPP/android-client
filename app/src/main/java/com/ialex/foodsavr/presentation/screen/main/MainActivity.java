@@ -107,11 +107,6 @@ public class MainActivity extends AppCompatActivity implements SignOutListener {
 
     @NeedsPermission(Manifest.permission.CAMERA)
     void showScannerActivity() {
-        /*IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setPrompt("Scan a barcode");
-        integrator.setBeepEnabled(false);
-        integrator.setBarcodeImageEnabled(false);
-        integrator.initiateScan();*/
         Intent intent = new Intent(this, BarcodeActivity.class);
         startActivityForResult(intent, RC_SCAN_BARCODE);
     }

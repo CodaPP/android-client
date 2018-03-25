@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ialex.foodsavr.R;
@@ -37,6 +39,12 @@ public class FoodShareFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.donations_recycler)
     RecyclerView donationsRecyclerView;
+
+    @BindView(R.id.charity_image)
+    ImageView charityImage;
+
+    @BindView(R.id.no_items_donated)
+    TextView noItemsDonated;
 
     @Inject
     DataRepository dataRepository;
@@ -89,6 +97,12 @@ public class FoodShareFragment extends Fragment implements ProductListener {
     @Override
     public void onReceiveDonatedItems(List<FridgeItem> items) {
         mAdapter.setNewDataset(items);
+
+        if (items.size() > 0) {
+            hideInfo();
+        } else {
+            showInfo();
+        }
     }
 
     @Override
@@ -112,5 +126,15 @@ public class FoodShareFragment extends Fragment implements ProductListener {
         mAdapter = new DonationsAdapter(donationsRecyclerView, getContext(), donatedItems);
         mAdapter.setHasStableIds(true);
         donationsRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void hideInfo() {
+        charityImage.setVisibility(View.GONE);
+        noItemsDonated.setVisibility(View.GONE);
+    }
+
+    private void showInfo() {
+        charityImage.setVisibility(View.VISIBLE);
+        noItemsDonated.setVisibility(View.VISIBLE);
     }
 }

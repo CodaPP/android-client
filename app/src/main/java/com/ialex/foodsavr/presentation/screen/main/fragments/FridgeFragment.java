@@ -18,6 +18,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -61,6 +63,12 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @BindView(R.id.konfetti)
     KonfettiView konfettiView;
+
+    @BindView(R.id.empty_fridge_image)
+    ImageView emptyFridge;
+
+    @BindView(R.id.no_items_in_fridge)
+    TextView noItemsText;
 
     @BindColor(R.color.md_amber_500)
     int konfetti1;
@@ -187,6 +195,12 @@ public class FridgeFragment extends Fragment implements ProductListener {
 
     @Override
     public void onReceiveFridgeItems(List<FridgeItem> items) {
+        if (items.size() > 0) {
+            hideInfo();
+        } else {
+            showInfo();
+        }
+
         swipeRefreshLayout.setRefreshing(false);
         mAdapter.setNewDataset(items);
     }
@@ -273,5 +287,15 @@ public class FridgeFragment extends Fragment implements ProductListener {
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
                 .stream(150, 2000L);
+    }
+
+    private void hideInfo() {
+        emptyFridge.setVisibility(View.GONE);
+        noItemsText.setVisibility(View.GONE);
+    }
+
+    private void showInfo() {
+        emptyFridge.setVisibility(View.VISIBLE);
+        noItemsText.setVisibility(View.VISIBLE);
     }
 }
