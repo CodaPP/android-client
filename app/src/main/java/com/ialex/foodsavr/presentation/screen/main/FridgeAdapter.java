@@ -20,6 +20,7 @@ import com.ialex.foodsavr.R;
 import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.component.MiscUtils;
 import com.ialex.foodsavr.data.DataRepository;
+import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
 import com.ialex.foodsavr.presentation.screen.main.fragments.FridgeFragment;
 
@@ -53,6 +54,11 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
     @Inject
     DataRepository dataRepository;
 
+    @Inject
+    PrefsRepository prefsRepository;
+
+    private final String laravelSessionCookie;
+
     public FridgeAdapter(RecyclerView recyclerView, Context context, List<FridgeItem> items) {
         this.mRecyclerView = recyclerView;
         this.mContext = context;
@@ -60,6 +66,8 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
         this.mItems = items;
 
         FoodApplication.component().inject(this);
+
+        laravelSessionCookie = prefsRepository.getLaravelToken();
     }
 
     public void addStation(FridgeItem fridgeItem) {
@@ -181,7 +189,7 @@ public class FridgeAdapter extends RecyclerView.Adapter<FridgeAdapter.FridgeView
             RequestOptions options = new RequestOptions()
                     .placeholder(R.drawable.ic_milk_24dp);
 
-            Glide.with(mContext).load(MiscUtils.getPhotoUrl(item)).apply(options).apply(RequestOptions.circleCropTransform()).into(stationImage);
+            Glide.with(mContext).load(MiscUtils.getPhotoUrl(item, laravelSessionCookie)).apply(options).apply(RequestOptions.circleCropTransform()).into(stationImage);
 
             itemName.setText(info.name);
             itemManufacturer.setText(info.manufacturer);

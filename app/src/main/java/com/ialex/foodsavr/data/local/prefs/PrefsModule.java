@@ -56,6 +56,13 @@ public class PrefsModule {
     }
 
     @Provides
+    @Named("laravel_session")
+    @Singleton
+    StringPreference provideLaravelSessionPreference(SharedPreferences preferences) {
+        return new StringPreference(preferences, "laravel_session", null);
+    }
+
+    @Provides
     @Named("cookies")
     @Singleton
     StringSetPreference provideCookiesPreference(SharedPreferences preferences) {

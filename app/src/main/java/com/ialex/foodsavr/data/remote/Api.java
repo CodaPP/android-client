@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 
 public interface Api {
     String URL_PROD_BASE = "http://defcon33.ddns.net/";
-    String URL_PROD_TEST = "http://yumpi.ddns.net/";
+    String URL_PROD_TEST = "http://bcreaderapp.com/";
 
     @FormUrlEncoded
     @POST("/FoodSavr/public/register")

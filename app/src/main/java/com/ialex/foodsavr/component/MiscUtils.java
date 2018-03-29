@@ -8,7 +8,11 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.ialex.foodsavr.data.remote.Api;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
+import com.ialex.foodsavr.data.util.Constants;
 
 /**
  * Created by alex on 27.09.2017.
@@ -82,7 +86,14 @@ public class MiscUtils {
         return sb.toString();
     }
 
-    public static String getPhotoUrl(FridgeItem item) {
-        return "http://yumpi.ddns.net/FoodSavr/resources/assets/img/" + item.photo;
+    public static GlideUrl getPhotoUrl(FridgeItem item, String authToken) {
+        String url = Api.URL_PROD_TEST + "FoodSavr/public/image/" + item.photo;
+
+        GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
+                .addHeader("Cookie", authToken)
+                .build());
+
+
+        return glideUrl;
     }
 }

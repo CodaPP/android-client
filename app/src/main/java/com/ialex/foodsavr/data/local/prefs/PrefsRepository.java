@@ -29,6 +29,10 @@ public class PrefsRepository {
     StringPreference namePreference;
 
     @Inject
+    @Named("laravel_session")
+    StringPreference laravelSessionPreference;
+
+    @Inject
     @Named("cookies")
     StringSetPreference cookiesPreference;
 
@@ -75,5 +79,13 @@ public class PrefsRepository {
 
     public void saveCookies(Set<String> value) {
         cookiesPreference.set(value);
+    }
+
+    public void setLaravelToken(String token) {
+        laravelSessionPreference.set(token);
+    }
+
+    public String getLaravelToken() {
+        return laravelSessionPreference.get();
     }
 }

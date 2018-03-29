@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ialex.foodsavr.R;
+import com.ialex.foodsavr.component.FoodApplication;
 import com.ialex.foodsavr.component.MiscUtils;
 import com.ialex.foodsavr.data.DataRepository;
+import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.remote.models.FridgeItem;
 
 import java.util.List;
@@ -43,11 +45,20 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.Dona
     @Inject
     DataRepository dataRepository;
 
+    @Inject
+    PrefsRepository prefsRepository;
+
+    private final String laravelSessionCookie;
+
     public DonationsAdapter(RecyclerView recyclerView, Context context, List<FridgeItem> items) {
         this.mRecyclerView = recyclerView;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mItems = items;
+
+        FoodApplication.component().inject(this);
+
+        laravelSessionCookie = prefsRepository.getLaravelToken();
     }
 
     public void setNewDataset(List<FridgeItem> items) {
@@ -97,7 +108,7 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.Dona
             RequestOptions options = new RequestOptions()
                     .placeholder(R.drawable.ic_milk_24dp);
 
-            Glide.with(mContext).load(MiscUtils.getPhotoUrl(item)).apply(options).apply(RequestOptions.circleCropTransform()).into(itemImage);
+            Glide.with(mContext).load(MiscUtils.getPhotoUrl(item, laravelSessionCookie)).apply(options).apply(RequestOptions.circleCropTransform()).into(itemImage);
 
             itemName.setText(item.name);
 

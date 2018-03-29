@@ -6,7 +6,9 @@ import com.ialex.foodsavr.data.local.prefs.PrefsRepository;
 import com.ialex.foodsavr.data.util.Constants;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.Response;
@@ -32,6 +34,8 @@ public class ReceiveCookieInterceptor implements Interceptor {
             for (String header : originalResponse.headers("Set-Cookie")) {
                 if(header.contains(Constants.LARAVEL_SESSION)) {
                     cookies.add(header);
+
+                    prefsRepository.setLaravelToken(header);
                 }
             }
 
